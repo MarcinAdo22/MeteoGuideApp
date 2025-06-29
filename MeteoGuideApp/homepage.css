@@ -1,0 +1,121 @@
+#container {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    top: 45%;
+    left:43%;
+    position:absolute;
+    background-color:lightblue;
+    padding: 9px;
+    border-radius: 16px;
+    
+}
+
+#container a {
+    padding: 24px;
+    border-radius: 9px;
+    background-color: #99D329;
+    color:black;
+    text-decoration: none;
+    border-color:slategrey;
+    border-style: solid;
+
+
+}
+
+p {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 20px;
+    color:black;
+    padding:9px;
+
+}
+
+body {
+    background-color:#7583FE;
+    
+    
+    
+}
+
+#container a:hover {
+    background-color: #FE7934;
+}
+
+#link_to_register {
+
+    text-decoration: none;
+    padding: 3px;
+    background-color: none;
+    font-size: 13px;
+    color: #5F2602;
+    
+    
+
+}
+
+#login_container {
+    /*
+    display:flex;
+    flex-direction: column;
+    
+    align-items: center;
+    
+    justify-content: center;
+    */
+    top: 20%;
+    left:42%;
+    position:absolute;
+    padding: 9px;
+    
+
+}
+
+label {
+    font-size: 35px;
+}
+
+input[type = text] {
+
+    height: 45px;
+    width: 243px;
+    font-size: 22px;
+}
+
+input[type = password] {
+
+    height: 45px;
+    width: 243px;
+    font-size: 22px;
+}
+
+button {
+    height: 35px;
+}
+
+#login_form {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+   
+}
+
+#link_to_register:hover {
+
+    color: orangered;
+}
+
+#link_to_login_form {
+
+    text-decoration: none;
+    padding: 3px;
+    background-color: none;
+    font-size: 13px;
+    color:paleturquoise
+}
+
+#link_to_login_form:hover {
+
+    color:lightslategrey
+}
