@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+    <meta charset="utf-8">
+    <title>Homepage</title>
+    <link rel = "stylesheet" type="text/css" href="homepage.css">
+
+    </head>
+    <body>
+        <div id="weather_menubar">
+            <a href="contact_us.html">Kontakt</a>
+            <a href="./user_settings">Ustawienia konta</a>
+            <a href="data_sources.html">Źrodla danych</a>
+        </div>
+
+        <div id="weather_container">
+            <h2>Hejka <%= user.firstname %>!</h2>
+            <div id="weather_tabl">
+                <div id="weather_location">
+                    <p id="weather_heading">Aktualna pogoda na dzien</p>
+                </div>
+                <div id="region_data">
+                    <h3>Temperatura: <%= weather.main.temp %></h3>
+                    <h3>Wilgotnosc: <%= weather.main.humidity %></h3>
+                    <h3>Prawd. na opady: z</h3>
+                    <h3>Predkosc wiatru: <%= weather.wind.speed %></h3>
+                </div>
+            </div>
+            
+            <div id="activities_cont">
+                <h4>Proponowany ubiór dla dzisiejszej pogody</h4>
+                <h4>Sugerowane aktywnosci przy tej pogodzie</h4>
+            </div>
+        </div>
+        
+    </body>
+
+    <script>
+        
+        var datetime = new Date();
+
+        var day_name = datetime.toLocaleDateString();
+
+        var text_weather = document.getElementById("weather_heading");
+
+        const weatherData = <%- JSON.stringify(weather) %>;
+
+        text_weather.innerHTML = text_weather.textContent + " " + day_name + " " + "dla twojego " + weatherData.name;
+    </script>
+</html>
