@@ -6,10 +6,14 @@ const bcrypt = require("bcrypt");
 const session = require("express-session");
 const bodyParser = require("body-parser");
 const db = require("./db_users");
+const fetch = require('node-fetch').default;
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
+
+app.set("views", path.join(__dirname, "MeteoGuideApp"));
 
 app.use(session({
   secret: "key_to_secure", 
@@ -30,6 +34,10 @@ app.get('/login', (req, res) => {
 //Ustawienie strony rejestracji
 app.get('/register', (req, res) => {
   res.sendFile(path.join(__dirname, 'MeteoGuideApp', 'register_user.html'));
+});
+
+app.get('/user_settings', (req, res) => {
+  res.sendFile(path.join(__dirname, 'MeteoGuideApp', 'account_settings.html'));
 });
 
 app.use(express.urlencoded({ extended: true }));
@@ -59,11 +67,39 @@ app.post("/login", (req, res) => {
   });
 });
 
+app.post("/user_settings", async (req, res) => {
+  const { first_name_settings, last_name_settings, passwd_settings, region_user } = req.body;
+  const hashed_changed = await bcrypt.hash(passwd_settings, 10);
+  console.log(first_name_settings);
+  console.log(last_name_settings);
+  db.run(`UPDATE users SET region = ?, password = ? WHERE firstname = ? AND lastname = ?`, [region_user, hashed_changed ,first_name_settings, last_name_settings], async err => {
+    //if (!user) return res.send("Nieprawidłowe dane logowania. Podany uzytkownik nie istnieje");
+    if (!err) {
+      req.session.user.password = hashed_changed;
+      req.session.user.region = region_user;
+      res.redirect("/weather_forecast");
+      console.log(req.session.user.region);
+    } else {
+      res.send("Niestety, zmiany danych uzytkownika sie nie powiodly. Sprobuj raz jeszcze :)");
+    }
+  });
+});
+
 //Po walidacji user jest zalogowany i poinformowany o tym na stronie z danymi meteo
-app.get("/weather_forecast", (req, res) => {
+app.get("/weather_forecast", async (req, res) => {
   console.log(req.session.user.firstname)
   if (!req.session.user) return res.redirect("/login");
-  res.send(`Hejka, ${req.session.user.firstname}! Ciesze sie, ze jestes :) To jest twoja pogoda :)`);
+  //res.send(`Hejka, ${req.session.user.firstname}! Ciesze sie, ze jestes :) To jest twoja pogoda :)`);
+  const apiKey = "1a66f3f14813d8f773616d86e35fdc04";
+  const city = req.session.user.region;
+  const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
+  const data = await response.json();
+  res.render("weather_details", { user: req.session.user ,
+                                  weather: data
+  })
+
+  console.log(data);
+
 });
 
 //Obsługa plików statycznych z katalogu "MeteoGuideApp"
