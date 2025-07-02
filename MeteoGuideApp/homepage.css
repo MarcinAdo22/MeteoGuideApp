@@ -28,6 +28,8 @@ p {
     font-size: 20px;
     color:black;
     padding:9px;
+    text-align: center;
+    width: fit-content;
 
 }
 
@@ -118,4 +120,85 @@ button {
 #link_to_login_form:hover {
 
     color:lightslategrey
+}
+
+#weather_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+#weather_heading {
+    background-color: slategrey;
+    padding: 14px;
+    border-radius: 3px;
+    
+
+}
+
+#activities_cont {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 820px;
+}
+
+#weather_container p {
+    background-color: slategrey;
+    padding: 14px;
+    border-radius: 3px;
+    
+
+}
+
+#weather_menubar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color:steelblue;
+    width:auto;
+    height: 65px;
+
+}
+
+#weather_menubar a {
+    background-color: peachpuff;
+    padding: 13px;
+    text-decoration: none;
+    height:fit-content;
+    margin:12px;
+}
+
+#weather_tabl {
+    background-color:paleturquoise;
+    margin: 35px;
+    padding: 14px;
+    width: 825px
+}
+
+#region_data h3 {
+    background-color:lightblue;
+    width: 135px;
+    text-align: center;
+}
+
+#region_data {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content:space-around;
+}
+
+#weather_location {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+h4 {
+    text-align: center;
+    padding: 14px;
+    margin: 13px;
+    background-color:lightslategrey;
 }
