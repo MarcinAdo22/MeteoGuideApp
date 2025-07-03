@@ -45,6 +45,21 @@
 
         const weatherData = <%- JSON.stringify(weather) %>;
 
-        text_weather.innerHTML = text_weather.textContent + " " + day_name + " " + "dla twojego " + weatherData.name;
+        const country_json = <%- JSON.stringify(country_session) %>;
+
+        const region_json = <%- JSON.stringify(region_session) %>;
+
+        if (country_json && region_json)
+        {
+            
+            text_weather.innerHTML = text_weather.textContent + " " + day_name + " " + "dla " + weatherData.name + ", " + region_json + ", " + country_json;
+        }
+        else
+        {
+
+            text_weather.innerHTML = text_weather.textContent + " " + day_name + " " + "dla " + weatherData.name ;
+
+        }
+        
     </script>
 </html>

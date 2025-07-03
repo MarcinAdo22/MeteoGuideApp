@@ -13,13 +13,33 @@
             <a href="data_sources.html">Źrodla danych</a>
         </div>
 
-        <form action = "/user_settings" method="POST">
-            <input type="text" placeholder="Enter your first name: " name="first_name_settings"><br><br>
-            <input type="text" placeholder="Enter your last name: " name="last_name_settings"><br><br>
-            <input type="password" placeholder="Enter your password: " name="passwd_settings"><br><br>
-            <input type="text" placeholder="Enter your region: " name="region_user"><br><br>
-            <button type="submit">Potwierdz zmiany</button>
-        </form>
+        <div id="form_user_locate">
+
+            <form action = "/user_settings" method="POST">
+                <div>
+                    <label><strong>First name:</strong></label><br>
+                    <input type="text" placeholder="Enter your first name: " name="first_name_settings"><br><br>
+                    <label><strong>Last name:</strong></label><br>
+                    <input type="text" placeholder="Enter your last name: " name="last_name_settings"><br><br>
+                    <label><strong>Password:</strong></label><br>
+                    <input type="password" placeholder="Enter your password: " name="passwd_settings">
+                </div>
+                <div>
+                    <label><strong>Country:</strong></label><br>
+                    <input type="text" placeholder="Enter your country: " name="country_name"><br><br>
+                    <label><strong>Region:</strong></label><br>
+                    <input type="text" placeholder="Enter your region: " name="region_name"><br><br>
+                    <label><strong>City:</strong></label><br>
+                    <input type="text" placeholder="Enter your city: " name="city_name">
+                </div>
+                <div id="submit_changes">
+
+                    <button type="submit">Potwierdz zmiany</button>
+                </div>
+            
+            </form>
+        </div>
+        
         
         
     </body>

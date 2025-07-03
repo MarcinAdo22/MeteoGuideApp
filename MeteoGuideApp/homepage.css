@@ -38,6 +38,7 @@ body {
     
     
     
+    
 }
 
 #container a:hover {
@@ -201,4 +202,34 @@ h4 {
     padding: 14px;
     margin: 13px;
     background-color:lightslategrey;
+}
+
+form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+form div {
+    padding: 14px;
+    margin: 0px 35px 0px 35px;
+
+}
+
+#submit_changes {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#form_user_locate {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 685px;
+}
+
+label {
+    font-size: 24px;
+
 }
