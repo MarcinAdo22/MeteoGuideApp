@@ -68,17 +68,22 @@ app.post("/login", (req, res) => {
 });
 
 app.post("/user_settings", async (req, res) => {
-  const { first_name_settings, last_name_settings, passwd_settings, region_user } = req.body;
+  const { first_name_settings, last_name_settings, passwd_settings, country_name, region_name ,city_name } = req.body;
   const hashed_changed = await bcrypt.hash(passwd_settings, 10);
   console.log(first_name_settings);
   console.log(last_name_settings);
-  db.run(`UPDATE users SET region = ?, password = ? WHERE firstname = ? AND lastname = ?`, [region_user, hashed_changed ,first_name_settings, last_name_settings], async err => {
+  db.run(`UPDATE users SET region = ?, password = ? WHERE firstname = ? AND lastname = ?`, [city_name, hashed_changed ,first_name_settings, last_name_settings], async err => {
     //if (!user) return res.send("Nieprawidłowe dane logowania. Podany uzytkownik nie istnieje");
     if (!err) {
       req.session.user.password = hashed_changed;
-      req.session.user.region = region_user;
+      req.session.user.region = city_name;
+      req.session.location_country = country_name;
+      req.session.location_region = region_name;
+      console.log(req.session.location_country);
+      console.log(req.session.location_region);
       res.redirect("/weather_forecast");
       console.log(req.session.user.region);
+      
     } else {
       res.send("Niestety, zmiany danych uzytkownika sie nie powiodly. Sprobuj raz jeszcze :)");
     }
@@ -94,11 +99,25 @@ app.get("/weather_forecast", async (req, res) => {
   const city = req.session.user.region;
   const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
   const data = await response.json();
-  res.render("weather_details", { user: req.session.user ,
-                                  weather: data
-  })
+  
 
-  console.log(data);
+  const country_wart = req.session.location_country || null;
+  const region_wart = req.session.location_region || null;
+
+  console.log(country_wart);
+  console.log(region_wart);
+  console.log(req.session.location_country);
+  console.log(req.session.location_region);
+  
+  res.render("weather_details", { user: req.session.user ,
+                                  weather: data,
+                                  country_session: country_wart,
+                                  region_session: region_wart
+  })
+  
+  
+    
+  
 
 });
 
