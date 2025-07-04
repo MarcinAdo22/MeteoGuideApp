@@ -3,7 +3,7 @@
     <head>
     <meta charset="utf-8">
     <title>Homepage</title>
-    <link rel = "stylesheet" type="text/css" href="homepage.css">
+    <link rel = "stylesheet" type="text/css" href="account_settings.css">
 
     </head>
     <body>
@@ -13,9 +13,13 @@
             <a href="data_sources.html">Źrodla danych</a>
         </div>
 
+
+
+
+
         <div id="form_user_locate">
 
-            <form action = "/user_settings" method="POST">
+            <form id ="user_setting_form" action = "/user_settings" method="POST">
                 <div>
                     <label><strong>First name:</strong></label><br>
                     <input type="text" placeholder="Enter your first name: " name="first_name_settings"><br><br>
@@ -30,13 +34,15 @@
                     <label><strong>Region:</strong></label><br>
                     <input type="text" placeholder="Enter your region: " name="region_name"><br><br>
                     <label><strong>City:</strong></label><br>
-                    <input type="text" placeholder="Enter your city: " name="city_name">
+                    <input type="text" placeholder="Enter your city: " name="city_name" id = "city">
                 </div>
                 <div id="submit_changes">
 
                     <button type="submit">Potwierdz zmiany</button>
                 </div>
             
+                <p id="Error_register_miasto" style="display: none; color: red;">Nie ma takiego miasta! Spróbuj ponownie</p>
+
             </form>
         </div>
         
@@ -44,7 +50,24 @@
         
     </body>
 
-    <script>
-        
-    </script>
+
+<script>
+  document.getElementById("user_setting_form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const city = document.getElementById("city").value.trim();
+
+    const apiKey = "1a66f3f14813d8f773616d86e35fdc04"; // <-- wstaw tutaj swój klucz do OpenWeather
+
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
+
+    if (!response.ok) {
+        Error_register_miasto.style.display = "block";
+        return;
+    }
+      e.target.submit();
+
+
+  });
+</script>
+
 </html>

@@ -10,20 +10,16 @@ db.serialize(() => {
       password TEXT,
       firstname TEXT,
       lastname TEXT,
+      city TEXT,
+      country TEXT,
       region TEXT
     )
   `);
+
   
-    /*
-    db.run(`ALTER TABLE users ADD COLUMN region TEXT`, err => {
-        if (err) {
-        // Jeśli kolumna już istnieje, to SQLite zwróci błąd — możesz go zignorować
-        console.log("Kolumna 'region' mogła już istnieć:", err.message);
-        } else {
-            console.log("Dodano kolumnę 'region' do tabeli users.");
-        }
-    });
-    */
+  
+    
+    
 });
 
 module.exports = db;

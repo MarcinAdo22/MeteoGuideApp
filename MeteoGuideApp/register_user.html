@@ -3,7 +3,7 @@
     <head>
     <meta charset="utf-8">
     <title>Homepage</title>
-    <link rel = "stylesheet" type="text/css" href="homepage.css">
+    <link rel = "stylesheet" type="text/css" href="register_user.css">
 
     </head>
     <body>
@@ -15,6 +15,12 @@
                 <input type="text" placeholder="Your last name: " name="last_name"><br><br>
                 <input type="text" placeholder="Your email: " name="user_name"><br><br>
                 <input type="password" placeholder="Your password: " name="user_password"><br><br>
+                <input type="text" placeholder="Your city: " name="city" id="city"><br><br>
+
+
+
+
+
                 <div id="submit_login">
 
                     <a id="link_to_login_form" href="./login">Masz konto? Zaloguj sie </a>
@@ -22,10 +28,29 @@
                     
                 </div>
                 
-
+                <p id="Error_register_miasto" style="display: none; color: red;">Nie ma takiego miasta! Spróbuj ponownie</p>
 
 
             </form>
         </div>
     </body>
 </html>
+
+<script>
+  document.getElementById("login_form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const city = document.getElementById("city").value.trim();
+
+    const apiKey = "1a66f3f14813d8f773616d86e35fdc04"; // <-- wstaw tutaj swój klucz do OpenWeather
+
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
+
+    if (!response.ok) {
+        Error_register_miasto.style.display = "block";
+        return;
+    }
+      e.target.submit();
+
+
+  });
+</script>

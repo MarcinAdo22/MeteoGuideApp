@@ -44,9 +44,9 @@ app.use(express.urlencoded({ extended: true }));
 
 //Insertowanie do bazy danych uzytkonikow MeteoGuideApp
 app.post("/register", async (req, res) => {
-  const { first_name, last_name, user_name, user_password } = req.body;
+  const { first_name, last_name, user_name, user_password, city } = req.body;
   const hashed = await bcrypt.hash(user_password, 10);
-  db.run(`INSERT INTO users (username, password, firstname, lastname) VALUES (?, ?, ?, ?)`, [user_name, hashed, first_name, last_name], err => {
+  db.run(`INSERT INTO users (username, password, firstname, lastname, city, country, region) VALUES (?, ?, ?, ?, ?, null, null)`, [user_name, hashed, first_name, last_name, city], err => {
     if (err) return res.send("Błąd: użytkownik istnieje.");
     res.redirect("/login");
   });
@@ -70,19 +70,34 @@ app.post("/login", (req, res) => {
 app.post("/user_settings", async (req, res) => {
   const { first_name_settings, last_name_settings, passwd_settings, country_name, region_name ,city_name } = req.body;
   const hashed_changed = await bcrypt.hash(passwd_settings, 10);
-  console.log(first_name_settings);
-  console.log(last_name_settings);
+
+
   db.run(`UPDATE users SET region = ?, password = ? WHERE firstname = ? AND lastname = ?`, [city_name, hashed_changed ,first_name_settings, last_name_settings], async err => {
     //if (!user) return res.send("Nieprawidłowe dane logowania. Podany uzytkownik nie istnieje");
     if (!err) {
-      req.session.user.password = hashed_changed;
-      req.session.user.region = city_name;
-      req.session.location_country = country_name;
-      req.session.location_region = region_name;
-      console.log(req.session.location_country);
-      console.log(req.session.location_region);
-      res.redirect("/weather_forecast");
-      console.log(req.session.user.region);
+
+      if (first_name_settings!= ""){
+        req.session.user.firstname = first_name_settings;
+      }
+
+      if (last_name_settings!= ""){
+        req.session.user.lastname = last_name_settings;
+      }
+
+      if (hashed_changed != ""){
+        req.session.user.password = hashed_changed;
+      }
+      if (city_name != ""){
+        req.session.user.city = city_name;
+      }
+      if (country_name != ""){
+        req.session.user.country = country_name;
+      }      
+      if (region_name != ""){
+        req.session.user.region = region_name;
+      }
+
+    res.redirect("/weather_forecast");
       
     } else {
       res.send("Niestety, zmiany danych uzytkownika sie nie powiodly. Sprobuj raz jeszcze :)");
@@ -96,13 +111,15 @@ app.get("/weather_forecast", async (req, res) => {
   if (!req.session.user) return res.redirect("/login");
   //res.send(`Hejka, ${req.session.user.firstname}! Ciesze sie, ze jestes :) To jest twoja pogoda :)`);
   const apiKey = "1a66f3f14813d8f773616d86e35fdc04";
-  const city = req.session.user.region;
+  const city = req.session.user.city;
   const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
+
+
   const data = await response.json();
   
 
-  const country_wart = req.session.location_country || null;
-  const region_wart = req.session.location_region || null;
+  const country_wart = req.session.user.country || null;
+  const region_wart = req.session.user.region || null;
 
   console.log(country_wart);
   console.log(region_wart);

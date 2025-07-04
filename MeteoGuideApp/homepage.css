@@ -138,6 +138,8 @@ button {
 
 }
 
+
+
 #activities_cont {
     display: flex;
     flex-direction: row;
@@ -157,19 +159,28 @@ button {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    background-color:steelblue;
+    background-color: #5c8115;
     width:auto;
     height: 65px;
+
 
 }
 
 #weather_menubar a {
-    background-color: peachpuff;
+    color: black;
+    background-color: #B9FE34;
     padding: 13px;
     text-decoration: none;
     height:fit-content;
     margin:12px;
+    cursor: pointer;
+    border-radius: 5px;
 }
+
+#weather_menubar a:hover {
+    background-color: #99d329;
+}
+
 
 #weather_tabl {
     background-color:paleturquoise;
@@ -233,3 +244,12 @@ label {
     font-size: 24px;
 
 }
+
+
+
+
+
+
+
+
+

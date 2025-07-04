@@ -1,0 +1,84 @@
+body{
+    background-color: lightblue;
+}
+
+#weather_menubar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    background-color: #5c8115;
+    width:auto;
+    height: 65px;
+    margin: 0px;
+}
+
+* {
+    margin: 0;
+}
+
+#weather_menubar a {
+    color: black;
+    background-color: #B9FE34;
+    padding: 13px;
+    text-decoration: none;
+    height:fit-content;
+    margin:12px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#weather_menubar a:hover {
+    background-color: #99d329;
+}
+
+
+button {
+    height: 35px;
+    background-color:  #B9FE34;
+    color: blue;
+    padding: 10px;
+    padding-bottom: 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 100%;
+    border: 1px solid #5c8115;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+
+button:hover {
+    background-color: #99d329;
+}
+
+
+form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 20px;
+}
+
+form > div
+{
+    margin: 20px;
+}
+
+input[type = text] {
+
+    margin: 5px;
+    height: 30px;
+    width: 150;
+  box-shadow: 0 0 2px 1px #99d329;
+}
+
+input[type = password] {
+    margin: 5px;
+
+    height: 30px;
+    width: 150;
+  box-shadow: 0 0 2px 1px #99d329;
+}
+
+label {
+   margin: 5px;
+}
