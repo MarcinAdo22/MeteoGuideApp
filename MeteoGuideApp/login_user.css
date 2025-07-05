@@ -24,14 +24,9 @@ body{
    
 }
 
-input[type = text] {
 
-    height: 45px;
-    width: 243px;
-    font-size: 22px;
-}
-
-input[type = password] {
+input[type="text"],
+input[type="password"] {
 
     height: 45px;
     width: 243px;
@@ -49,7 +44,7 @@ input[type = password] {
 
 .input-row label {
     font-size: 18px;
-    width: 120px; /* stała szerokość */
+    width: 120px; 
     text-align: right;
     margin: 0;
 }
@@ -70,14 +65,15 @@ input[type = password] {
 
 
 
-
-
 #link_to_register:hover {
 
     color: #5F2602;
     text-decoration: underline;
 }
 
+input::placeholder {
+    font-size: 15px;
+}
 
 
 label {
@@ -104,7 +100,6 @@ button {
 button:hover {
     background-color: #FE7934;
 }
-
 
 #submit_login {
     display: flex;

@@ -8,27 +8,45 @@
     </head>
     <body>
         <div id="login_container">
-
             <form id="login_form" action="/register" method = "POST">
-                <label><strong>Zarejestruj się</strong></label><br><br>
-                <input type="text" placeholder="Your first name: " name="first_name"><br><br>
-                <input type="text" placeholder="Your last name: " name="last_name"><br><br>
-                <input type="text" placeholder="Your email: " name="user_name"><br><br>
-                <input type="password" placeholder="Your password: " name="user_password"><br><br>
-                <input type="text" placeholder="Your city: " name="city" id="city"><br><br>
 
+                <strong id="register_heading">Zarejestruj się</strong>
+                <div class="input-row">
+                    <label for="username">Podaj imię:</label>
+                <input type="text" placeholder="Twoje imię " name="first_name">
+                </div>
 
+                <div class="input-row">
+                    <label for="username">Podaj nazwisko:</label>
+                <input type="text" placeholder="Twoje nazwisko " name="last_name">
+                </div>
 
+                <div class="input-row">
+                    <label for="username">Podaj mail:</label>
+                <input type="text" placeholder="Twój email " name="user_name">
+                </div>
+
+                <div class="input-row">
+                    <label for="username">Podaj hasło:</label>
+                <input type="password" placeholder="Twoje hasło " name="user_password">
+                </div>
+
+                
+                <div class="input-row">
+                    <label for="username">Podaj miasto:</label>
+                <input type="text" placeholder="Twoje miasto " name="city" id="city">
+                </div>
 
 
                 <div id="submit_login">
 
-                    <a id="link_to_login_form" href="./login">Masz konto? Zaloguj sie </a>
+                    <a id="link_to_login_form" href="./login">Masz konto? Zaloguj się! </a>
                     <button type="submit" >Utworz konto</button>
                     
                 </div>
                 
                 <p id="Error_register_miasto" style="display: none; color: red;">Nie ma takiego miasta! Spróbuj ponownie</p>
+                <p id="Error_uzytkownik_istnieje" style="display: none; color: red;">Błąd! Użytkownik istnieje! </p> <!-- TODO !!! -->
 
 
             </form>

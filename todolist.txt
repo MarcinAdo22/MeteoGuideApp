@@ -1,0 +1,3 @@
+1. Obsłużyć sytuację kiedy złe hasło -> by był czerwony komunikat, a nie odsyłało do kolejnej strony
+2. Obsłużyć sytuację gdy użytkownik istnieje podczas rejestracji -> by był czerwony komunikat, a nie odsyłało do kolejnej strony
+3. Obsłużyć sytuację w której użytkownik nie podaje imienia/maila/hasła (bądź podaje za długie/za krótkie (opcjonalnie)) -> by był komunikat i by nie pozwalało założyć takiego konta
