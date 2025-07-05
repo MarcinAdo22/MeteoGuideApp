@@ -11,18 +11,25 @@
 
             <form id="login_form" action="/login" method="POST">
                 <label><strong>Zaloguj się</strong></label><br><br>
-                <input type="text" placeholder="Your email: " name="username"><br><br>
-                <input type="password" placeholder="Your password: " name="passwd"><br><br>
-                <div id="submit_login">
+                
+                                
+                <div class="input-row">
+                    <label for="username">Podaj mail:</label>
+                    <input type="text" id="username" name="username" placeholder="Twój e-mail">
+                </div><br>
 
-                    <a id="link_to_register" href="./register">Nie masz konta? Zarejestruj się! </a>
-                    <button type="submit">Potwierdz</button>
+                <div class="input-row">
+                    <label for="passwd">Podaj hasło:</label>
+                    <input type="password" id="passwd" name="passwd" placeholder="Twoje hasło">
+                </div>
+
+                <div id="submit_login">
+                <button type="submit">Potwierdź</button>
+
+                <a id="link_to_register" href="./register">Nie masz konta? Zarejestruj się! </a>
                     
                 </div>
                 
-
-
-
             </form>
         </div>
     </body>
