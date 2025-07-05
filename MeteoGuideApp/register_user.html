@@ -41,7 +41,7 @@
     e.preventDefault();
     const city = document.getElementById("city").value.trim();
 
-    const apiKey = "1a66f3f14813d8f773616d86e35fdc04"; // <-- wstaw tutaj swój klucz do OpenWeather
+    const apiKey = "1a66f3f14813d8f773616d86e35fdc04";
 
     const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
 
