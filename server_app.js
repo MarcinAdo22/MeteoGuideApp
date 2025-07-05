@@ -9,6 +9,45 @@ const db = require("./db_users");
 const fetch = require('node-fetch').default;
 
 
+function getSuggestions(weather) {
+  const temp = weather.main.temp;
+  const wind = weather.wind.speed;
+  const rain = weather.weather[0].main.toLowerCase();
+
+  let clothing = [];
+  let activities = [];
+
+  // Ubiór
+  if (temp < 5) {
+    clothing.push({ name: "Ciepła kurtka", icon: "coat.jpg" });
+    clothing.push({ name: "Szalik", icon: "scarf.jpg" });
+  } else if (temp < 15) {
+    clothing.push({ name: "Lekka kurtka", icon: "jacket.jpg" });
+  } else if (temp < 25) {
+    clothing.push({ name: "Bluza", icon: "hoodie.jpg" });
+  } else {
+    clothing.push({ name: "Koszulka", icon: "tshirt.avif" });
+    clothing.push({ name: "Okulary przeciwsłoneczne", icon: "sunglasses.jpg" });
+  }
+
+  // Aktywności
+  if (rain.includes("rain") || rain.includes("storm")) {
+    activities.push({ name: "Muzeum", icon: "museum.jpg" });
+    activities.push({ name: "Kino", icon: "cinema.jpg" });
+  } else if (temp > 25 && wind < 5) {
+    activities.push({ name: "Spacer", icon: "walk.jpg" });
+    activities.push({ name: "Rower", icon: "bike.jpg" });
+  } else {
+    activities.push({ name: "Bieganie", icon: "running.png" });
+    activities.push({ name: "Joga", icon: "yoga.jpg" });
+  }
+
+  return { clothing, activities };
+}
+
+
+
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
@@ -116,7 +155,7 @@ app.get("/weather_forecast", async (req, res) => {
 
 
   const data = await response.json();
-  
+  const suggestions = getSuggestions(data);
 
   const country_wart = req.session.user.country || null;
   const region_wart = req.session.user.region || null;
@@ -126,11 +165,16 @@ app.get("/weather_forecast", async (req, res) => {
   console.log(req.session.location_country);
   console.log(req.session.location_region);
   
-  res.render("weather_details", { user: req.session.user ,
-                                  weather: data,
-                                  country_session: country_wart,
-                                  region_session: region_wart
-  })
+  res.render("weather_details", {
+  user: req.session.user,
+  weather: data,
+  country_session: country_wart,
+  region_session: region_wart,
+  clothing: suggestions.clothing,
+  activities: suggestions.activities
+});
+
+
   
   
     

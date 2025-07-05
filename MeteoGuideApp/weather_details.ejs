@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Homepage</title>
     <link rel = "stylesheet" type="text/css" href="weather_details.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
     </head>
     <body>
@@ -28,38 +29,99 @@
             </div>
             
             <div id="activities_cont">
-                <h4>Proponowany ubiór dla dzisiejszej pogody</h4>
-                <h4>Sugerowane aktywnosci przy tej pogodzie</h4>
+                <div class="suggestion-boxes">
+                    <div class="suggestion-box">
+                        <h3>Proponowany ubiór</h3>
+                        <ul>
+                        <% clothing.forEach(item => { %>
+                            <li>
+                            <img src="/icons/<%= item.icon %>" alt="<%= item.name %>" class="icon">
+                            <span><%= item.name %></span>
+                            </li>
+                        <% }); %>
+                        </ul>
+                    </div>
+
+                    <div class="suggestion-box">
+                        <h3>Sugerowane aktywności</h3>
+                        <ul>
+                        <% activities.forEach(item => { %>
+                            <li>
+                            <img src="/icons/<%= item.icon %>" alt="<%= item.name %>" class="icon">
+                            <span><%= item.name %></span>
+                            </li>
+                        <% }); %>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <h3 style="text-align: center;">Mapa pogodowa twojej lokalizacji</h3>
+
+        <div style="text-align: center; margin-bottom: 10px;">
+        <label for="layer-select"><strong>Wybierz warstwę pogodową:</strong></label>
+        <select id="layer-select">
+            <option value="clouds_new">Chmury</option>
+            <option value="precipitation_new">Opady</option>
+            <option value="temp_new">Temperatura</option>
+            <option value="wind_new">Wiatr</option>
+        </select>
+        </div>
+
+        <div id="weather-map" style="height: 400px; border-radius: 15px;"></div>
         
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     </body>
 
     <script>
-        
         var datetime = new Date();
-
         var day_name = datetime.toLocaleDateString();
 
         var text_weather = document.getElementById("weather_heading");
-
         const weatherData = <%- JSON.stringify(weather) %>;
-
         const country_json = <%- JSON.stringify(country_session) %>;
-
         const region_json = <%- JSON.stringify(region_session) %>;
 
-        if (country_json && region_json)
-        {
-            
-            text_weather.innerHTML = text_weather.textContent + " " + day_name + " " + "dla " + weatherData.name + ", " + region_json + ", " + country_json;
+        if (country_json && region_json) {
+            text_weather.innerHTML = text_weather.textContent + " " + day_name + " dla " + weatherData.name + ", " + region_json + ", " + country_json;
+        } else {
+            text_weather.innerHTML = text_weather.textContent + " " + day_name + " dla " + weatherData.name;
         }
-        else
-        {
 
-            text_weather.innerHTML = text_weather.textContent + " " + day_name + " " + "dla " + weatherData.name ;
+        const apiKey = "1a66f3f14813d8f773616d86e35fdc04";
+        let weatherLayer;
 
-        }
-        
-    </script>
+        navigator.geolocation.getCurrentPosition(function (position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            const map = L.map('weather-map').setView([lat, lon], 10);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+            function addWeatherLayer(type) {
+            if (weatherLayer) map.removeLayer(weatherLayer);
+            weatherLayer = L.tileLayer(`https://tile.openweathermap.org/map/${type}/{z}/{x}/{y}.png?appid=${apiKey}`, {
+                opacity: 0.5
+            });
+            weatherLayer.addTo(map);
+            }
+
+            addWeatherLayer("clouds_new");
+
+            L.marker([lat, lon]).addTo(map)
+            .bindPopup("Twoja lokalizacja")
+            .openPopup();
+
+            const layerSelect = document.getElementById("layer-select");
+            layerSelect.addEventListener("change", function (e) {
+            const selectedLayer = e.target.value;
+            addWeatherLayer(selectedLayer);
+            });
+        });
+</script>
+
 </html>

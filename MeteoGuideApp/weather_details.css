@@ -92,3 +92,38 @@ body {
     justify-content: space-between;
     width: 820px;
 }
+
+.suggestion-boxes {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30px;
+}
+
+.suggestion-box {
+  background-color: #cdeff6;
+  padding: 20px;
+  border-radius: 15px;
+  width: 40%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.suggestion-box h3 {
+  text-align: center;
+}
+
+.suggestion-box ul {
+  list-style: none;
+  padding: 0;
+}
+
+.suggestion-box li {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+  margin-right: 10px;
+}
