@@ -9,6 +9,14 @@ const db = require("./db_users");
 const fetch = require('node-fetch').default;
 
 
+function requireLogin(req, res, next) {
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+  next();
+}
+
+
 function getSuggestions(weather) {
   const temp = weather.main.temp;
   const wind = weather.wind.speed;
@@ -19,11 +27,12 @@ function getSuggestions(weather) {
 
   // Ubiór
   if (temp < 5) {
-    clothing.push({ name: "Ciepła kurtka", icon: "coat.jpg" });
+    clothing.push({ name: "Kurtka", icon: "jacket.jpg" });
     clothing.push({ name: "Szalik", icon: "scarf.jpg" });
   } else if (temp < 15) {
-    clothing.push({ name: "Lekka kurtka", icon: "jacket.jpg" });
-  } else if (temp < 25) {
+    clothing.push({ name: "Płaszcz/trencz", icon: "coat.jpg" });
+    clothing.push({ name: "Bluza", icon: "hoodie.jpg" });
+  } else if (temp < 20) {
     clothing.push({ name: "Bluza", icon: "hoodie.jpg" });
   } else {
     clothing.push({ name: "Koszulka", icon: "tshirt.avif" });
@@ -40,6 +49,7 @@ function getSuggestions(weather) {
   } else {
     activities.push({ name: "Bieganie", icon: "running.png" });
     activities.push({ name: "Joga", icon: "yoga.jpg" });
+    activities.push({ name: "Muzeum", icon: "museum.jpg" });
   }
 
   return { clothing, activities };
@@ -60,6 +70,15 @@ app.use(session({
   saveUninitialized: false
 }));
 
+app.use((req, res, next) => {
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Expires", "0");
+  res.setHeader("Surrogate-Control", "no-store");
+  next();
+});
+
+
 //Ustawienie strony startowej aplikacji
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'MeteoGuideApp', 'homepage.html'));
@@ -67,17 +86,35 @@ app.get('/', (req, res) => {
 
 //Ustawienie strony logowania
 app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'MeteoGuideApp', 'login_user.html'));
+  res.render("login_user", { error: null });
 });
 
 //Ustawienie strony rejestracji
 app.get('/register', (req, res) => {
-  res.sendFile(path.join(__dirname, 'MeteoGuideApp', 'register_user.html'));
+  res.render("register_user", { error: null });
 });
 
 app.get('/user_settings', (req, res) => {
-  res.sendFile(path.join(__dirname, 'MeteoGuideApp', 'account_settings.html'));
+  if (!req.session.user) return res.redirect("/login");
+  res.render("account_settings", { user: req.session.user });
 });
+
+
+app.get('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      console.log("Błąd przy wylogowaniu:", err);
+      return res.send("Błąd przy wylogowywaniu.");
+    }
+    res.redirect('/login');
+  });
+});
+
+app.get('/data_sources.html', (req, res) => {
+  res.sendFile(path.join(__dirname, 'MeteoGuideApp', 'data_sources.html'));
+});
+
+
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -94,58 +131,76 @@ app.post("/register", async (req, res) => {
 //Przeszukiwanie uzytkownika z ocena poprawnosci wpisanych w form: nazwy usera i hasla
 app.post("/login", (req, res) => {
   const { username, passwd } = req.body;
+
   db.get(`SELECT * FROM users WHERE username = ?`, [username], async (err, user) => {
-    if (!user) return res.send("Nieprawidłowe dane logowania. Podany uzytkownik nie istnieje");
+    if (!user) {
+      return res.render("login_user", { error: "Nieprawidłowa nazwa użytkownika lub hasło." });
+    }
+
     const validation = await bcrypt.compare(passwd, user.password);
     if (validation) {
       req.session.user = user;
-      res.redirect("/weather_forecast");
+      return res.redirect("/weather_forecast");
     } else {
-      res.send("Nieprawidłowe hasło. Sprawdz czy jest poprawne");
+      return res.render("login_user", { error: "Nieprawidłowa nazwa użytkownika lub hasło." });
     }
   });
 });
+
 
 app.post("/user_settings", async (req, res) => {
-  const { first_name_settings, last_name_settings, passwd_settings, country_name, region_name ,city_name } = req.body;
-  const hashed_changed = await bcrypt.hash(passwd_settings, 10);
+  const {first_name_settings, last_name_settings, passwd_settings, country_name, region_name, city_name} = req.body;
 
+  const userId = req.session.user.id;
 
-  db.run(`UPDATE users SET region = ?, password = ? WHERE firstname = ? AND lastname = ?`, [city_name, hashed_changed ,first_name_settings, last_name_settings], async err => {
-    //if (!user) return res.send("Nieprawidłowe dane logowania. Podany uzytkownik nie istnieje");
-    if (!err) {
+  // Hasło tylko jeśli podano
+  let hashedPassword = req.session.user.password;
+  if (passwd_settings && passwd_settings.trim() !== "") {
+    hashedPassword = await bcrypt.hash(passwd_settings, 10);
+  }
 
-      if (first_name_settings!= ""){
-        req.session.user.firstname = first_name_settings;
+  // Wartości do aktualizacji
+  const updatedFirstname = first_name_settings || req.session.user.firstname;
+  const updatedLastname = last_name_settings || req.session.user.lastname;
+  const updatedCountry = country_name || req.session.user.country;
+  const updatedRegion = region_name && region_name.trim() !== "" ? region_name : null;
+  const updatedCity = city_name && city_name.trim() !== "" ? city_name : null;
+
+  db.run(
+    `UPDATE users
+     SET firstname = ?, lastname = ?, password = ?, country = ?, region = ?, city = ?
+     WHERE id = ?`,
+    [
+      updatedFirstname,
+      updatedLastname,
+      hashedPassword,
+      updatedCountry,
+      updatedRegion,
+      updatedCity,
+      userId
+    ],
+    err => {
+      if (err) {
+        return res.send("Błąd podczas aktualizacji danych.");
       }
 
-      if (last_name_settings!= ""){
-        req.session.user.lastname = last_name_settings;
-      }
+      // Aktualizacja sesji
+      req.session.user.firstname = updatedFirstname;
+      req.session.user.lastname = updatedLastname;
+      req.session.user.password = hashedPassword;
+      req.session.user.country = updatedCountry;
+      req.session.user.region = updatedRegion;
+      req.session.user.city = updatedCity;
 
-      if (hashed_changed != ""){
-        req.session.user.password = hashed_changed;
-      }
-      if (city_name != ""){
-        req.session.user.city = city_name;
-      }
-      if (country_name != ""){
-        req.session.user.country = country_name;
-      }      
-      if (region_name != ""){
-        req.session.user.region = region_name;
-      }
-
-    res.redirect("/weather_forecast");
-      
-    } else {
-      res.send("Niestety, zmiany danych uzytkownika sie nie powiodly. Sprobuj raz jeszcze :)");
+      res.redirect("/weather_forecast");
     }
-  });
+  );
 });
 
+
+
 //Po walidacji user jest zalogowany i poinformowany o tym na stronie z danymi meteo
-app.get("/weather_forecast", async (req, res) => {
+app.get("/weather_forecast", requireLogin, async (req, res) => {
   console.log(req.session.user.firstname)
   if (!req.session.user) return res.redirect("/login");
   //res.send(`Hejka, ${req.session.user.firstname}! Ciesze sie, ze jestes :) To jest twoja pogoda :)`);

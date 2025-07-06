@@ -22,6 +22,10 @@
                     <label for="passwd">Podaj hasło:</label>
                     <input type="password" id="passwd" name="passwd" placeholder="Twoje hasło">
                 </div>
+                <% if (typeof error !== "undefined") { %>
+                    <p style="color: red; text-align: center;"><%= error %></p>
+                <% } %>
+
 
                 <div id="submit_login">
                 <button type="submit">Potwierdź</button>

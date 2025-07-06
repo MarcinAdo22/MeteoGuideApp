@@ -14,35 +14,37 @@
         </div>
 
 
-
-
-
         <div id="form_user_locate">
 
-            <form id ="user_setting_form" action = "/user_settings" method="POST">
+            <form id="user_setting_form" action="/user_settings" method="POST">
                 <div>
                     <label><strong>Imię:</strong></label><br>
-                    <input type="text" placeholder="Podaj nowe imię: " name="first_name_settings"><br><br>
+                    <input type="text" placeholder="Podaj nowe imię: " name="first_name_settings" value="<%= user.firstname %>" maxlength="30"><br><br>
+
                     <label><strong>Nazwisko:</strong></label><br>
-                    <input type="text" placeholder="Podaj nowe nazwisko: " name="last_name_settings"><br><br>
+                    <input type="text" placeholder="Podaj nowe nazwisko: " name="last_name_settings" value="<%= user.lastname %>" maxlength="30"><br><br>
+
                     <label><strong>Hasło:</strong></label><br>
-                    <input type="password" placeholder="Podaj nowe hasło: " name="passwd_settings">
+                    <input type="password" placeholder="Podaj nowe hasło: " name="passwd_settings" maxlength="50">
                 </div>
+
                 <div>
                     <label><strong>Kraj:</strong></label><br>
-                    <input type="text" placeholder="Podaj nowy kraj: " name="country_name"><br><br>
-                    <label><strong>Region:</strong></label><br>
-                    <input type="text" placeholder="Podaj nowy region: " name="region_name"><br><br>
-                    <label><strong>Miasto:</strong></label><br>
-                    <input type="text" placeholder="Podaj nowe miasto: " name="city_name" id = "city">
-                </div>
-                <div id="submit_changes">
+                    <input type="text" placeholder="Podaj nowy kraj: " name="country_name" value="<%= user.country %>" maxlength="30"><br><br>
 
+                    <label><strong>Region:</strong></label><br>
+                    <input type="text" placeholder="Podaj nowy region: " name="region_name" value="<%= user.region %>" maxlength="50"><br><br>
+
+                    <label><strong>Miasto:</strong></label><br>
+                    <input type="text" placeholder="Podaj nowe miasto: " name="city_name" id="city" value="<%= user.city %>" maxlength="50">
+                </div>
+
+                <div id="submit_changes">
                     <button type="submit">Potwierdź zmiany</button>
                 </div>
-            
-
             </form>
+
+
             <p id="Error_register_miasto" style="display: none; color: red;">Nie ma takiego miasta! Spróbuj ponownie</p>
         </div>
         

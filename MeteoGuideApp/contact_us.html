@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Kontakt</title>
+  <link rel="stylesheet" href="contact_us.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+  <div id="weather_menubar">
+    <a href="./weather_forecast">Twoja pogoda</a>
+    <a href="./user_settings">Ustawienia konta</a>
+    <a href="data_sources.html">Źródła danych</a>
+    <a href="/logout" class="logout-button">Wyloguj</a>
+  </div>
+
+  <div class="container">
+    <div class="info-box">
+      <h2>Siedziba firmy</h2>
+      <p><strong>MeteoGuide</strong></p>
+      <p>AGH – Wydział Geologii, Geofizyki i Ochrony Środowiska</p>
+      <p>al. Mickiewicza 30, 30-059 Kraków</p>
+      <p><strong>Email:</strong> kontakt@meteoguide.pl</p>
+      <p><strong>Telefon:</strong> +48 12 345 67 89</p>
+    </div>
+
+    <div id="map"></div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('map').setView([50.064453, 19.923749], 17);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    L.marker([50.067047, 19.912202])
+        .addTo(map)
+        .bindPopup("AGH – WGGiOŚ")
+        .openPopup();
+
+  </script>
+</body>
+</html>
