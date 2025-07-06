@@ -11,29 +11,28 @@ body {
 
 
 #weather_menubar {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    background-color: #5c8115;
-    width:auto;
-    height: 65px;
-
+  background-color: #4d731c;
+  padding: 15px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 #weather_menubar a {
-    color: black;
-    background-color: #B9FE34;
-    padding: 13px;
-    text-decoration: none;
-    height:fit-content;
-    margin:12px;
-    cursor: pointer;
-    border-radius: 5px;
+  text-decoration: none;
+  color: black;
+  background-color: #caff73;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  box-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  transition: background-color 0.3s ease;
 }
 
 #weather_menubar a:hover {
-    background-color: #99d329;
+  background-color: #b3eb5e;
 }
+
 
 #weather_container {
     display: flex;

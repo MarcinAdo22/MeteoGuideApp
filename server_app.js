@@ -119,14 +119,32 @@ app.get('/data_sources.html', (req, res) => {
 app.use(express.urlencoded({ extended: true }));
 
 //Insertowanie do bazy danych uzytkonikow MeteoGuideApp
-app.post("/register", async (req, res) => {
-  const { first_name, last_name, user_name, user_password, city } = req.body;
-  const hashed = await bcrypt.hash(user_password, 10);
-  db.run(`INSERT INTO users (username, password, firstname, lastname, city, country, region) VALUES (?, ?, ?, ?, ?, null, null)`, [user_name, hashed, first_name, last_name, city], err => {
-    if (err) return res.send("Błąd: użytkownik istnieje.");
-    res.redirect("/login");
+app.post("/register", (req, res) => {
+  const { user_name, user_password, first_name, last_name, city } = req.body;
+
+  db.get("SELECT * FROM users WHERE username = ?", [user_name], async (err, existingUser) => {
+    if (err) {
+      return res.status(500).send("Błąd serwera.");
+    }
+
+    if (existingUser) {
+      return res.render("register_user.ejs", { userExists: true });
+    }
+
+    const hashedPassword = await bcrypt.hash(user_password, 10);
+
+    db.run("INSERT INTO users (username, password, firstname, lastname, city) VALUES (?, ?, ?, ?, ?)",
+      [user_name, hashedPassword, first_name, last_name, city],
+      err => {
+        if (err) {
+          return res.status(500).send("Błąd serwera podczas rejestracji.");
+        }
+        res.redirect("/login");
+      }
+    );
   });
 });
+
 
 //Przeszukiwanie uzytkownika z ocena poprawnosci wpisanych w form: nazwy usera i hasla
 app.post("/login", (req, res) => {

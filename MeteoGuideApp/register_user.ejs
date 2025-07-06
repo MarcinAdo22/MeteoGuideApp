@@ -36,10 +36,13 @@
                     <label for="username">Podaj miasto:</label>
                 <input type="text" placeholder="Twoje miasto " name="city" id="city">
                 </div>
-
+                <% if (typeof userExists !== 'undefined' && userExists) { %>
+                    <p id="Error_uzytkownik_istnieje" style="color: red; text-align: center;">
+                        Błąd! Użytkownik o tym adresie e-mail już istnieje!
+                    </p>
+                <% } %>
 
                 <div id="submit_login">
-
                     <a id="link_to_login_form" href="./login">Masz konto? Zaloguj się! </a>
                     <button type="submit" >Utwórz konto</button>
                     
