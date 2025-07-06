@@ -11,20 +11,21 @@
         <div id="weather_menubar">
             <a href="contact_us.html">Kontakt</a>
             <a href="./user_settings">Ustawienia konta</a>
-            <a href="data_sources.html">Źrodla danych</a>
+            <a href="data_sources.html">Źródła danych</a>
         </div>
 
         <div id="weather_container">
-            <h2>Hejka <%= user.firstname %>!</h2>
+            <h2>Cześć <%= user.firstname %>!</h2>
             <div id="weather_tabl">
                 <div id="weather_location">
-                    <p id="weather_heading">Aktualna pogoda na dzien</p>
+                    <p id="weather_heading">Aktualna pogoda na dzień</p>
                 </div>
                 <div id="region_data">
-                    <h3>Temperatura: <%= weather.main.temp %></h3>
-                    <h3>Wilgotnosc: <%= weather.main.humidity %></h3>
-                    <h3>Prawd. na opady: z</h3>
-                    <h3>Predkosc wiatru: <%= weather.wind.speed %></h3>
+                    <h3>Temperatura: <br> <%= weather.main.temp %> &#8451</h3>
+                    <h3>Temp. odczuwalna: <br> <%= weather.main.feels_like %> &#8451</h3>
+                    <h3>Wilgotność: <br> <%= weather.main.humidity %>%</h3>
+                    <h3>Zachmurzenie: <br> <%= weather.clouds.all %>%</h3>
+                    <h3>Prędkość wiatru: <%= weather.wind.speed %> m/s</h3>
                 </div>
             </div>
             
@@ -84,9 +85,9 @@
         const region_json = <%- JSON.stringify(region_session) %>;
 
         if (country_json && region_json) {
-            text_weather.innerHTML = text_weather.textContent + " " + day_name + " dla " + weatherData.name + ", " + region_json + ", " + country_json;
+            text_weather.innerHTML = text_weather.textContent + " " + day_name + " dla <strong>" + weatherData.name + "</strong>, " + region_json + ", " + country_json + ":";
         } else {
-            text_weather.innerHTML = text_weather.textContent + " " + day_name + " dla " + weatherData.name;
+            text_weather.innerHTML = text_weather.textContent + " " + day_name + " dla <strong> " + weatherData.name + "</strong>:";
         }
 
         const apiKey = "1a66f3f14813d8f773616d86e35fdc04";

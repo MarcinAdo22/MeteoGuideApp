@@ -1,5 +1,5 @@
 body{
-    background-color: lightblue;
+    background-color: #d7d9ff;
 }
 
 #weather_menubar {
@@ -84,4 +84,9 @@ input[type = password] {
 
 label {
    margin: 5px;
+}
+
+#Error_register_miasto{
+    font-size: 25px;
+    text-align: center;
 }

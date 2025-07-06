@@ -1,4 +1,9 @@
 1. Obsłużyć sytuację kiedy złe hasło -> by był czerwony komunikat, a nie odsyłało do kolejnej strony
 2. Obsłużyć sytuację gdy użytkownik istnieje podczas rejestracji -> by był czerwony komunikat, a nie odsyłało do kolejnej strony
-3. Obsłużyć sytuację w której użytkownik nie podaje imienia/maila/hasła (bądź podaje za długie/za krótkie (opcjonalnie)) -> by był komunikat i by nie pozwalało założyć takiego konta
-4. Jak zmieni się dane i zaloguje z powrotem na to samo konto to dane nie są zapisane
+3. Obsłużyć sytuację w której użytkownik nie podaje imienia/maila/hasła (bądź podaje za długie/za krótkie ) -> by był komunikat i by nie pozwalało założyć takiego konta
+4. Obsłużyc sytuację, w której użytkownik podaje za długie/krótkie dane podczas zmiany w ustawieniach.
+5. Jak zmieni się dane i zaloguje z powrotem na to samo konto to dane nie są zapisane
+6. Dodać przycisk "wyloguj"
+7. Dodać opcję "Usuń region" i "Usuń miasto" żeby można było usunąć te dane, jako że są opcjonalne, teraz jak się raz je wpisze to nie da się ich usunąć
+8. Dodać stronę Kontakt
+9. Dodać stronę Źródła danych
