@@ -1,9 +1,6 @@
 body {
-  background-color: #d7d9fb;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #d7d9ff;
   color: #222;
-  margin: 0;
-  padding: 0;
 }
 
 #weather_menubar {
@@ -12,6 +9,10 @@ body {
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+
+* {
+    margin: 0;
 }
 
 #weather_menubar a {
@@ -25,6 +26,9 @@ body {
   transition: background-color 0.3s ease;
 }
 
+
+
+
 #weather_menubar a:hover {
   background-color: #b3eb5e;
 }
@@ -35,7 +39,7 @@ body {
   padding: 30px;
   background-color: #f0f4ff;
   border-radius: 12px;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 1px 1px 10px rgba(0,0,0,0.5);
 }
 
 h2 {
@@ -49,10 +53,17 @@ ul {
   line-height: 1.6;
 }
 
+
+
+
 a {
-  color: #2b65ec;
+  text-decoration: none;
+    color: #0333c5;
+
 }
+
 
 a:hover {
   text-decoration: underline;
+  color: #011b77;
 }

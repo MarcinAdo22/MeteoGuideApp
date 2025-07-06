@@ -221,9 +221,8 @@ app.post("/user_settings", async (req, res) => {
 app.get("/weather_forecast", requireLogin, async (req, res) => {
   console.log(req.session.user.firstname)
   if (!req.session.user) return res.redirect("/login");
-  //res.send(`Hejka, ${req.session.user.firstname}! Ciesze sie, ze jestes :) To jest twoja pogoda :)`);
   const apiKey = "1a66f3f14813d8f773616d86e35fdc04";
-  const city = req.session.user.city?.trim() || "Trzebinia";
+  const city = req.session.user.city?.trim() || "Kraków";
   const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
 
 
