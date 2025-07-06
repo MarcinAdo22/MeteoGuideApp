@@ -150,11 +150,15 @@ app.get("/weather_forecast", async (req, res) => {
   if (!req.session.user) return res.redirect("/login");
   //res.send(`Hejka, ${req.session.user.firstname}! Ciesze sie, ze jestes :) To jest twoja pogoda :)`);
   const apiKey = "1a66f3f14813d8f773616d86e35fdc04";
-  const city = req.session.user.city;
+  const city = req.session.user.city?.trim() || "Trzebinia";
   const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
 
 
   const data = await response.json();
+
+  console.log(data);
+  console.log(city);
+
   const suggestions = getSuggestions(data);
 
   const country_wart = req.session.user.country || null;
