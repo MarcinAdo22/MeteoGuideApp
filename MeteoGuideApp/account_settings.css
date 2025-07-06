@@ -40,10 +40,13 @@ button {
     padding-bottom: 25px;
     border-radius: 5px;
     cursor: pointer;
-    margin-top: 100%;
+    margin-top: 85%;
     border: 1px solid #5c8115;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
 }
+
+
+
 
 
 button:hover {
